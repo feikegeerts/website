@@ -3,3 +3,4 @@ public
 /public/build/
 .firebase
 .DS_Store
+config.js
