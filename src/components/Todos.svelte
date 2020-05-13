@@ -50,12 +50,6 @@
         flex-grow: 1;
     }
 
-    h2 {
-        font-size: 2em;
-        font-weight: 200;
-        user-select: none;
-    }
-
     @media only screen and (min-width: 768px) {
 
         .left :global(label) {

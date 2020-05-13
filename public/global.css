@@ -64,3 +64,14 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+h2 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 2em;
+	font-weight: 300;
+}
+
+h3 {
+	font-weight: 300;
+	font-family: 'Roboto', sans-serif;
+}
