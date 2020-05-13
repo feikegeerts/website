@@ -3,7 +3,7 @@
     import { crossfade } from 'svelte/transition';
     import { flip } from 'svelte/animate';
 
-    import { db } from './firebase';
+    import { db } from '../firebase';
     import { collectionData } from 'rxfire/firestore';
     import { startWith } from 'rxjs/operators';
     import Todo from './Todo.svelte';

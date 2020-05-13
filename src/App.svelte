@@ -2,9 +2,10 @@
 	import { auth, googleProvider } from './firebase';
 	import { authState } from 'rxfire/auth';
 
-	import Profile from './Profile.svelte';
-	import Todos from './Todos.svelte';
-	import NewTodo from './NewTodoInput.svelte';
+	import Profile from './components/Profile.svelte';
+	import Todos from './components/Todos.svelte';
+	import NewTodo from './components/NewTodoInput.svelte';
+	import GoogleLoginButton from './components/GoogleLoginButton.svelte';
 
 	let user;
 
@@ -25,20 +26,19 @@
 
 	.constraint {
 		width: 100%;
-		padding: .5em;
-	}
-
-	button {
-		cursor: pointer;
+		padding: .5rem;
 	}
 
 	@media only screen and (min-width: 768px) {
 		.constraint {
-			max-width: 52em;
+			max-width: 52rem;
 		}
 	}
 </style>
 
+<svelte:head>
+	<title>Todo list</title>
+</svelte:head>
 <div class="main">
 	<div class="constraint">
 		{#if user}
@@ -46,9 +46,8 @@
 			<NewTodo uid={user.uid} />
 			<Todos uid={user.uid} />
 		{:else}
-			<button on:click={login}>
-				Signin with Google
-			</button>
+			<GoogleLoginButton login={login} />
 		{/if}
 	</div>
+
 </div>
