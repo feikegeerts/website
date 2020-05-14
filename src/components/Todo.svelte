@@ -1,7 +1,11 @@
 <script>
+    import moment from 'moment';
+
     export let uid;
     export let id;
+    export let index;
     export let complete;
+    export let color;
     export let created;
     export let text;
     export let updateStatus;
@@ -16,16 +20,12 @@
         line-height: 1;
         padding: .75em;
         margin-bottom: .5em;
-        border-radius: 2px;
+        border-radius: 4px;
         background-color: #eee;
         user-select: none;
         display: flex;
         align-items: center;
         max-width: 100%;
-    }
-
-    .complete {
-        background-color: rgb(180, 240, 100);
     }
 
     input {
@@ -34,8 +34,20 @@
     }
 
     .text {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
         flex-grow: 1;
         margin: 0 .5em;
+    }
+
+    .complete .text,
+    .complete .created {
+        text-decoration: line-through;
+        color: #757575;
+    }
+
+    .created {
+        font-size: 11px;
     }
 
     .deleteButton {
@@ -50,14 +62,43 @@
         color: rgb(170, 30, 30);
         cursor: pointer;
     }
+
+    .darkGreen {
+        border: 2px solid var(--dark-green-color);
+    }
+    .green {
+        border: 2px solid var(--green-color);
+    }
+    .yellow {
+        border: 2px solid var(--yellow-color);
+    }
+    .orange {
+        border: 2px solid var(--orange-color);
+    }
+    .red {
+        border: 2px solid var(--red-color);
+    }
+    .complete {
+        border: 2px solid #d4d4d4;
+        background-color: #eee;
+    }
 </style>
 
-<label class={complete ? "complete" : undefined }>
+<label class={`
+    ${color}
+    ${complete ? "complete" : undefined}
+`}>
     <input
         type=checkbox
         bind:checked={complete}
         on:change={() => updateStatus(id, complete)}
     >
-    <div class="text">{text}</div>
+    <div class="text">
+        {text}
+    </div>
+    <div class="created">
+        <span class="Date">{moment(created).format('DD MMMM YYYY')}</span>
+        <span class="Time">{moment(created).format('HH:mm')}</span>
+    </div>
     <button class="deleteButton" on:click="{() => removeItem(id)}">x</button>
 </label>

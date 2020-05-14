@@ -9,19 +9,15 @@
     .profile {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         flex-shrink: 1;
         margin-bottom: 1em;
     }
 
-    .info {
+    .title {
         margin: .5em;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
-
-    h3 {
-        margin-bottom: .5em;
+        max-width: 240px;
+        text-align: center;
     }
 
     img {
@@ -30,14 +26,13 @@
 
     button {
         font-size: 12px;
+        margin: 0;
     }
 </style>
 
 <div class="profile">
     <img src={ photoURL } width="50" alt="user avatar">
-    <div class="info">
-        <h3>Hi { displayName }!</h3>
-        <div><button on:click={ () => signOut() }>Logout</button></div>
-    </div>
+    <h3 class="title">Hi { displayName }!</h3>
+    <button on:click={ () => signOut() }>Logout</button>
 </div>
 

@@ -5,13 +5,13 @@
 
     import { db } from '../firebase';
     import { collectionData } from 'rxfire/firestore';
-    import { startWith } from 'rxjs/operators';
+    import { startWith, reduce } from 'rxjs/operators';
     import Todo from './Todo.svelte';
 
     // User ID passed from parent
     export let uid;
 
-    const query = db.collection('todos').where('uid', '==', uid).orderBy('created', 'desc');
+    const query = db.collection('todos').where('uid', '==', uid).orderBy('index', 'asc').orderBy('created', 'desc');
     const todos = collectionData(query, 'id').pipe(startWith([]));
 
     function updateStatus(id, status) {
@@ -40,9 +40,41 @@
 </script>
 
 <style>
+    .wrapper {
+        margin-top: 2em;
+    }
+
+    .darkGreen {
+        background-color: var(--dark-green-color);
+    }
+    .green {
+        background-color: var(--green-color);
+    }
+    .yellow {
+        background-color: var(--yellow-color);
+    }
+    .orange {
+        background-color: var(--orange-color);
+    }
+    .red {
+        background-color: var(--red-color);
+    }
+
+    .colorLine {
+        height: 6px;
+        border-radius: 6px;
+        flex-basis: 100%;
+    }
+
     .board {
         display: flex;
         flex-wrap: wrap;
+        border-radius: 1em;
+        margin: 1em 0;
+    }
+
+    .headings {
+        display: none;
     }
 
     .left, .right {
@@ -50,7 +82,15 @@
         flex-grow: 1;
     }
 
+    .center {
+        display: flex;
+        justify-content: center;
+    }
+
     @media only screen and (min-width: 768px) {
+        .headings {
+            display: flex;
+        }
 
         .left :global(label) {
             margin-right: .25em;
@@ -66,22 +106,33 @@
     }
 </style>
 
-<div class='board'>
-    <div class='left'>
-        <h2>Todo</h2>
-        {#each $todos.filter(t => !t.complete) as todo (todo.id)}
-            <div in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip >
-                <Todo {...todo} updateStatus={updateStatus} removeItem={removeItem} />
-            </div>
-        {/each}
+<div class="wrapper">
+    <div class="headings">
+        <div class='left center'><h2>Todo</h2></div>
+        <div class='right center'><h2>Done</h2></div>
     </div>
-
-    <div class='right'>
-        <h2>Done</h2>
-        {#each $todos.filter(t => t.complete)  as todo (todo.id)}
-            <div in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip >
-                <Todo {...todo} updateStatus={updateStatus} removeItem={removeItem} />
+    {#each $todos.reduce((acc, todo) => {
+        if(!acc.includes(todo.color)) {
+            acc.push(todo.color);
+        }
+        return acc;
+    }, []) as color (color) }
+        <div class="board" in:receive="{{key: color}}" out:send="{{key: color}}" animate:flip>
+            <div class='left'>
+                {#each $todos.filter(t => !t.complete && t.color === color) as todo (todo.id)}
+                    <div in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip >
+                        <Todo {...todo} updateStatus={updateStatus} removeItem={removeItem} />
+                    </div>
+                {/each}
             </div>
-        {/each}
-    </div>
+            <div class='right'>
+                {#each $todos.filter(t => t.complete && t.color === color) as todo (todo.id)}
+                    <div in:receive="{{key: todo.id}}" out:send="{{key: todo.id}}" animate:flip >
+                        <Todo {...todo} updateStatus={updateStatus} removeItem={removeItem} />
+                    </div>
+                {/each}
+            </div>
+        </div>
+    {/each}
 </div>
+
