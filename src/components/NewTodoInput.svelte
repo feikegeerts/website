@@ -74,6 +74,7 @@
         border: 1px solid transparent;
         margin: .25rem;
         cursor: pointer;
+        user-select: none;
     }
     .color.selected {
         border: 1px solid rgba(66,133,244, 1);

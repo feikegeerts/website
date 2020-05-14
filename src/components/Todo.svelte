@@ -10,6 +10,8 @@
     export let text;
     export let updateStatus;
     export let removeItem;
+
+    import DeleteIcon from '../resources/DeleteIcon.svg'
 </script>
 
 <style>
@@ -48,6 +50,7 @@
 
     .created {
         font-size: 11px;
+        font-weight: 300;
     }
 
     .deleteButton {
@@ -59,8 +62,12 @@
         line-height: 1;
         background-color: transparent;
         border: none;
-        color: rgb(170, 30, 30);
         cursor: pointer;
+        fill: #757575;
+    }
+    .deleteButton :global(svg) {
+        width: 16px;
+        height: 16px;
     }
 
     .darkGreen {
@@ -96,9 +103,11 @@
     <div class="text">
         {text}
     </div>
-    <div class="created">
-        <span class="Date">{moment(created).format('DD MMMM YYYY')}</span>
-        <span class="Time">{moment(created).format('HH:mm')}</span>
-    </div>
-    <button class="deleteButton" on:click="{() => removeItem(id)}">x</button>
+<!--    <div class="created">-->
+<!--        <span class="Date">{moment(created).format('DD MMMM YYYY')}</span>-->
+<!--        <span class="Time">{moment(created).format('HH:mm')}</span>-->
+<!--    </div>-->
+    <button class="deleteButton" on:click="{() => removeItem(id)}">
+        {@html DeleteIcon}
+    </button>
 </label>
