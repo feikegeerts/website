@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public"
+    "start": "sirv public -s"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "11.0.2",
@@ -21,6 +21,7 @@
     "moment": "^2.25.3",
     "rxfire": "^3.12.2",
     "rxjs": "^6.5.5",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "svelte-routing": "^1.4.2"
   }
 }

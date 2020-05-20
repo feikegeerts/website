@@ -4,6 +4,7 @@
 	--yellow-color: #F2D984;
 	--orange-color: #F28C29;
 	--red-color: #F25A38;
+	--white-color: #F2F2F2;
 }
 
 html, body {
@@ -45,6 +46,7 @@ input, button, select, textarea {
 	box-sizing: border-box;
 	border: 1px solid #ccc;
 	border-radius: 2px;
+	color: #333;
 }
 
 input:disabled {

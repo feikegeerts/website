@@ -1,19 +1,12 @@
 <script>
-	import { auth, googleProvider } from './firebase';
-	import { authState } from 'rxfire/auth';
+    import { Router, Route, Link } from 'svelte-routing';
+    import NavLink from './components/NavLink.svelte';
+    import About from './pages/About.svelte';
+    import TodoLists from './pages/TodoLists.svelte';
+    import Home from './pages/Home.svelte';
 
-	import Profile from './components/Profile.svelte';
-	import Todos from './components/Todos.svelte';
-	import NewTodo from './components/NewTodoInput.svelte';
-	import GoogleLoginButton from './components/GoogleLoginButton.svelte';
-
-	let user;
-
-	const unsubscribe = authState(auth).subscribe(u => user = u);
-
-	function login() {
-		auth.signInWithPopup(googleProvider);
-	}
+    // Used for SSR. A falsy value is ignored by the Router.
+    export let url = '';
 </script>
 
 <style>
@@ -41,13 +34,17 @@
 </svelte:head>
 <div class="main">
 	<div class="constraint">
-		{#if user}
-			<Profile uid={user.uid} displayName={user.displayName} photoURL={user.photoURL} signOut={() => auth.signOut()} />
-			<NewTodo uid={user.uid} />
-			<Todos uid={user.uid} />
-		{:else}
-			<GoogleLoginButton login={login} />
-		{/if}
+        <Router url="{url}">
+            <nav>
+                <NavLink to="/">Home</NavLink>
+                <NavLink to="about">About</NavLink>
+                <NavLink to="todo-lists">Todo Lists</NavLink>
+            </nav>
+            <div>
+                <Route path="/" component="{Home}" />
+                <Route path="about" component="{About}" />
+                <Route path="todo-lists/*" component="{TodoLists}" />
+            </div>
+        </Router>
 	</div>
-
 </div>

@@ -1,7 +1,16 @@
 <script>
-    export let login;
+    import { authState } from 'rxfire/auth';
+    import { auth, googleProvider } from '../firebase';
 
-    import GoogleIcon from '../resources/GoogleIcon.svg'
+    import GoogleIcon from '../resources/GoogleIcon.svg';
+
+    import { user } from '../stores/mainStore.js';
+
+    const unsubscribe = authState(auth).subscribe(u => user.set(u));
+
+    function login() {
+        auth.signInWithPopup(googleProvider);
+    }
 </script>
 
 <style>

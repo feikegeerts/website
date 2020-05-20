@@ -1,17 +1,13 @@
 <script>
-    import moment from 'moment';
+    import DeleteIcon from '../resources/DeleteIcon.svg'
 
-    export let uid;
+    // Props
     export let id;
-    export let index;
     export let complete;
     export let color;
-    export let created;
     export let text;
     export let updateStatus;
     export let removeItem;
-
-    import DeleteIcon from '../resources/DeleteIcon.svg'
 </script>
 
 <style>
@@ -29,30 +25,20 @@
         align-items: center;
         max-width: 100%;
     }
-
     input {
         margin: 0;
         cursor: pointer;
     }
-
     .text {
         font-family: 'Roboto', sans-serif;
         font-weight: 300;
         flex-grow: 1;
         margin: 0 .5em;
     }
-
-    .complete .text,
-    .complete .created {
+    .complete .text {
         text-decoration: line-through;
         color: #757575;
     }
-
-    .created {
-        font-size: 11px;
-        font-weight: 300;
-    }
-
     .deleteButton {
         float: right;
         height: 1em;
@@ -68,22 +54,6 @@
     .deleteButton :global(svg) {
         width: 16px;
         height: 16px;
-    }
-
-    .darkGreen {
-        border: 2px solid var(--dark-green-color);
-    }
-    .green {
-        border: 2px solid var(--green-color);
-    }
-    .yellow {
-        border: 2px solid var(--yellow-color);
-    }
-    .orange {
-        border: 2px solid var(--orange-color);
-    }
-    .red {
-        border: 2px solid var(--red-color);
     }
     .complete {
         border: 2px solid #d4d4d4;
@@ -103,10 +73,6 @@
     <div class="text">
         {text}
     </div>
-<!--    <div class="created">-->
-<!--        <span class="Date">{moment(created).format('DD MMMM YYYY')}</span>-->
-<!--        <span class="Time">{moment(created).format('HH:mm')}</span>-->
-<!--    </div>-->
     <button class="deleteButton" on:click="{() => removeItem(id)}">
         {@html DeleteIcon}
     </button>

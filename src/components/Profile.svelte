@@ -1,8 +1,15 @@
 <script>
-    export let uid;
-    export let displayName;
-    export let photoURL;
-    export let signOut;
+    import { auth } from '../firebase';
+    import { user } from '../stores/mainStore.js';
+
+    let userValue;
+    const unsubscribe = user.subscribe(value => {
+        userValue = value;
+    });
+
+    function signOut() {
+        auth.signOut();
+    }
 </script>
 
 <style>
@@ -31,8 +38,8 @@
 </style>
 
 <div class="profile">
-    <img src={ photoURL } width="50" alt="user avatar">
-    <h3 class="title">Hi { displayName }!</h3>
-    <button on:click={ () => signOut() }>Logout</button>
+    <img src={ userValue.photoURL } width="50" alt="user avatar">
+    <h3 class="title">Hi { userValue.displayName }!</h3>
+    <button on:click="{ signOut }">Logout</button>
 </div>
 
