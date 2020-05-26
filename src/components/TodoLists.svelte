@@ -1,59 +1,3 @@
-<script>
-    import { db } from '../firebase';
-    import { collectionData } from 'rxfire/firestore';
-    import { startWith, reduce } from 'rxjs/operators';
-    import { navigate } from 'svelte-routing';
-
-    import ListIcon from '../resources/ListIcon.svg';
-    import PlusIcon from '../resources/PlusIcon.svg';
-
-    // Stores
-    import { user } from '../stores/mainStore.js';
-
-    let userValue;
-    let todoLists;
-    let newListTitle = 'New List';
-
-    const unsubscribe = user.subscribe(value => {
-        userValue = value;
-    });
-
-    if(userValue) {
-        const query = db.collection('todoLists').where('uid', '==', userValue.uid).orderBy('created', 'asc');
-        todoLists = collectionData(query, 'id').pipe(startWith([]));
-    }
-
-    function handleKeyDown(event) {
-        if (event.key === 'Enter') {
-            addToDoList();
-        }
-    }
-
-    function handleListInputChange(input) {
-        newListTitle = input.target.value;
-    }
-
-    function addToDoList(e) {
-        let data = {
-            uid: userValue.uid,
-            title: newListTitle,
-            created: Date.now(),
-            numberOfTodos: 0,
-        };
-
-        db.collection('todoLists').add(data);
-        newListTitle = 'New List';
-    }
-
-    function navigateTo(url) {
-        navigate(url);
-    }
-
-    function handleInputFocus() {
-        this.setSelectionRange(0, this.value.length)
-    }
-</script>
-
 <style>
     .listItem {
         display: flex;
@@ -69,7 +13,6 @@
         cursor: pointer;
         color: var(--dark-green-color);
     }
-
 
     .description {
         display: flex;
@@ -130,11 +73,75 @@
     }
 </style>
 
+<script>
+    import { db } from '../firebase';
+    import { collectionData } from 'rxfire/firestore';
+    import { startWith, reduce } from 'rxjs/operators';
+    import { navigate } from 'svelte-routing';
+
+    import ListIcon from '../resources/ListIcon.svg';
+    import PlusIcon from '../resources/PlusIcon.svg';
+
+    // Stores
+    import { user } from '../stores/mainStore.js';
+
+    let userValue;
+    let todoLists;
+    let newListTitle = 'New List';
+
+    const unsubscribe = user.subscribe((value) => {
+        userValue = value;
+    });
+
+    if (userValue) {
+        const query = db
+            .collection('todoLists')
+            .where('uid', '==', userValue.uid)
+            .orderBy('created', 'asc');
+        todoLists = collectionData(query, 'id').pipe(startWith([]));
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            addToDoList();
+        }
+    }
+
+    function handleListInputChange(input) {
+        newListTitle = input.target.value;
+    }
+
+    function addToDoList(e) {
+        let data = {
+            uid: userValue.uid,
+            title: newListTitle,
+            created: Date.now(),
+            numberOfTodos: 0,
+        };
+
+        db.collection('todoLists').add(data);
+        newListTitle = 'New List';
+    }
+
+    function navigateTo(url) {
+        navigate(url);
+    }
+
+    function handleInputFocus() {
+        this.setSelectionRange(0, this.value.length);
+    }
+</script>
+
 <div>
     {#each $todoLists as todoList}
-        <div class="listItem" on:click={navigateTo(`/todo-lists/${todoList.id}`)}>
+        <div
+            class="listItem"
+            on:click="{navigateTo(`/todo-lists/${todoList.id}`)}"
+        >
             <div class="description">
-                <span class="icon">{@html ListIcon}</span>
+                <span class="icon">
+                    {@html ListIcon}
+                </span>
                 <span class="navigate">{todoList.title}</span>
             </div>
             <div>{todoList.numberOfTodos}</div>
@@ -144,12 +151,19 @@
         <input
             class="newTodoList"
             placeholder="Add new todo list"
-            bind:value={newListTitle}
+            bind:value="{newListTitle}"
             on:keydown="{handleKeyDown}"
             on:change="{handleListInputChange}"
-            on:click={handleInputFocus}
+            on:click="{handleInputFocus}"
+        />
+        <div class="icon">
+            {@html PlusIcon}
+        </div>
+        <div
+            class="{`addButton ${newListTitle !== 'New List' ? 'visible' : ''}`}"
+            on:click="{addToDoList}"
         >
-        <div class="icon">{@html PlusIcon}</div>
-        <div class="{`addButton ${newListTitle !== 'New List' ? 'visible' : ''}`}" on:click={addToDoList}>add</div>
+            add
+        </div>
     </div>
 </div>

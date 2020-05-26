@@ -1,23 +1,11 @@
-<script>
-    import DeleteIcon from '../resources/DeleteIcon.svg'
-
-    // Props
-    export let id;
-    export let complete;
-    export let color;
-    export let text;
-    export let updateStatus;
-    export let removeItem;
-</script>
-
 <style>
     label {
         top: 0;
         left: 0;
         font-size: 1em;
         line-height: 1;
-        padding: .75em;
-        margin-bottom: .5em;
+        padding: 0.75em;
+        margin-bottom: 0.5em;
         border-radius: 4px;
         background-color: #eee;
         user-select: none;
@@ -33,7 +21,7 @@
         font-family: 'Roboto', sans-serif;
         font-weight: 300;
         flex-grow: 1;
-        margin: 0 .5em;
+        margin: 0 0.5em;
     }
     .complete .text {
         text-decoration: line-through;
@@ -61,18 +49,30 @@
     }
 </style>
 
-<label class={`
+<script>
+    import DeleteIcon from '../resources/DeleteIcon.svg';
+
+    // Props
+    export let id;
+    export let complete;
+    export let color;
+    export let text;
+    export let updateStatus;
+    export let removeItem;
+</script>
+
+<label
+    class="{`
     ${color}
-    ${complete ? "complete" : undefined}
-`}>
+    ${complete ? 'complete' : undefined}
+`}"
+>
     <input
-        type=checkbox
-        bind:checked={complete}
-        on:change={() => updateStatus(id, complete)}
-    >
-    <div class="text">
-        {text}
-    </div>
+        type="checkbox"
+        bind:checked="{complete}"
+        on:change="{() => updateStatus(id, complete)}"
+    />
+    <div class="text">{text}</div>
     <button class="deleteButton" on:click="{() => removeItem(id)}">
         {@html DeleteIcon}
     </button>

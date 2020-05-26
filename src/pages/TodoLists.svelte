@@ -13,10 +13,9 @@
     import TodoListTitle from '../components/TodoListTitle.svelte';
 
     let userValue;
-    const unsubscribe = user.subscribe(value => {
+    const unsubscribe = user.subscribe((value) => {
         userValue = value;
     });
-
 
     //TODO: Colors should have non color names
     //TODO: Make lists a dropdown
@@ -32,9 +31,9 @@
             </Route>
             <Route path="/:listId" let:params>
                 <Link to="/todo-lists/">Back to all lists</Link>
-                <TodoListTitle listId={params.listId} />
-                <NewTodoInput listId={params.listId} />
-                <Todos listId={params.listId} />
+                <TodoListTitle listId="{params.listId}" />
+                <NewTodoInput listId="{params.listId}" />
+                <Todos listId="{params.listId}" />
             </Route>
         </Router>
     {:else}

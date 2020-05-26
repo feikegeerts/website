@@ -1,17 +1,3 @@
-<script>
-    import { auth } from '../firebase';
-    import { user } from '../stores/mainStore.js';
-
-    let userValue;
-    const unsubscribe = user.subscribe(value => {
-        userValue = value;
-    });
-
-    function signOut() {
-        auth.signOut();
-    }
-</script>
-
 <style>
     .profile {
         display: flex;
@@ -22,7 +8,7 @@
     }
 
     .title {
-        margin: .5em;
+        margin: 0.5em;
         max-width: 240px;
         text-align: center;
     }
@@ -37,9 +23,22 @@
     }
 </style>
 
-<div class="profile">
-    <img src={ userValue.photoURL } width="50" alt="user avatar">
-    <h3 class="title">Hi { userValue.displayName }!</h3>
-    <button on:click="{ signOut }">Logout</button>
-</div>
+<script>
+    import { auth } from '../firebase';
+    import { user } from '../stores/mainStore.js';
 
+    let userValue;
+    const unsubscribe = user.subscribe((value) => {
+        userValue = value;
+    });
+
+    function signOut() {
+        auth.signOut();
+    }
+</script>
+
+<div class="profile">
+    <img src="{userValue.photoURL}" width="50" alt="user avatar" />
+    <h3 class="title">Hi {userValue.displayName}!</h3>
+    <button on:click="{signOut}">Logout</button>
+</div>

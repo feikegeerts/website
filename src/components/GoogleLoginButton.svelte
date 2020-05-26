@@ -1,18 +1,3 @@
-<script>
-    import { authState } from 'rxfire/auth';
-    import { auth, googleProvider } from '../firebase';
-
-    import GoogleIcon from '../resources/GoogleIcon.svg';
-
-    import { user } from '../stores/mainStore.js';
-
-    const unsubscribe = authState(auth).subscribe(u => user.set(u));
-
-    function login() {
-        auth.signInWithPopup(googleProvider);
-    }
-</script>
-
 <style>
     button {
         display: flex;
@@ -20,9 +5,10 @@
         cursor: pointer;
         border: 0;
         border-radius: 1px;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
         box-sizing: border-box;
-        transition: background-color .218s,border-color .218s,box-shadow .218s;
+        transition: background-color 0.218s, border-color 0.218s,
+            box-shadow 0.218s;
         -webkit-user-select: none;
         -webkit-appearance: none;
         background-color: #fff;
@@ -34,11 +20,11 @@
         vertical-align: middle;
         white-space: nowrap;
         width: auto;
-        padding: .25rem;
+        padding: 0.25rem;
     }
 
     button:hover {
-        box-shadow: 0 0 3px 3px rgba(66,133,244,.3);
+        box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
     }
 
     .icon {
@@ -54,7 +40,7 @@
         display: inline-block;
         vertical-align: middle;
         font-family: 'Roboto', sans-serif;
-        letter-spacing: .21px;
+        letter-spacing: 0.21px;
         margin-left: 6px;
         margin-right: 6px;
         color: #757575;
@@ -63,7 +49,24 @@
     }
 </style>
 
-<button on:click={login}>
-    <span class="icon">{@html GoogleIcon}</span>
+<script>
+    import { authState } from 'rxfire/auth';
+    import { auth, googleProvider } from '../firebase';
+
+    import GoogleIcon from '../resources/GoogleIcon.svg';
+
+    import { user } from '../stores/mainStore.js';
+
+    const unsubscribe = authState(auth).subscribe((u) => user.set(u));
+
+    function login() {
+        auth.signInWithPopup(googleProvider);
+    }
+</script>
+
+<button on:click="{login}">
+    <span class="icon">
+        {@html GoogleIcon}
+    </span>
     <span class="buttonText">Sign in with Google</span>
 </button>

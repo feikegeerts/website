@@ -1,47 +1,3 @@
-<script>
-    import { db, increment } from '../firebase';
-
-    import { user } from '../stores/mainStore.js';
-
-    // Props
-    export let listId;
-
-    let userValue;
-    const unsubscribe = user.subscribe(value => {
-        userValue = value;
-    });
-
-    // Definitions
-    let newTodo = '';
-
-    function addToDb() {
-        let data = {
-            uid: userValue.uid,
-            text: newTodo,
-            complete: false,
-            created: Date.now()
-        };
-
-        db.collection('todoLists').doc(listId).collection('todos').add(data);
-        db.collection('todoLists').doc(listId).update({ numberOfTodos: increment});
-        newTodo = '';
-    }
-
-    function handleKeyDown(event) {
-        if (event.key === 'Enter') {
-            addToDb();
-        }
-    }
-
-    function handleTodoInputChange(input) {
-        newTodo = input.target.value;
-    }
-
-    function handleColorChange(color) {
-        selectedColor = color;
-    }
-</script>
-
 <style>
     .new {
         display: flex;
@@ -56,7 +12,7 @@
     }
     .newTodo {
         font-size: 1.2em;
-        padding: .5em;
+        padding: 0.5em;
     }
     button {
         display: block;
@@ -70,13 +26,57 @@
     }
 </style>
 
+<script>
+    import { db, increment } from '../firebase';
+
+    import { user } from '../stores/mainStore.js';
+
+    // Props
+    export let listId;
+
+    let userValue;
+    const unsubscribe = user.subscribe((value) => {
+        userValue = value;
+    });
+
+    // Definitions
+    let newTodo = '';
+
+    function addToDb() {
+        let data = {
+            uid: userValue.uid,
+            text: newTodo,
+            complete: false,
+            created: Date.now(),
+        };
+
+        db.collection('todoLists').doc(listId).collection('todos').add(data);
+        db.collection('todoLists')
+            .doc(listId)
+            .update({ numberOfTodos: increment });
+        newTodo = '';
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            addToDb();
+        }
+    }
+
+    function handleTodoInputChange(input) {
+        newTodo = input.target.value;
+    }
+</script>
+
 <div class="new">
     <input
         class="newTodo"
         placeholder="What needs to be done?"
-        bind:value={newTodo}
+        bind:value="{newTodo}"
         on:keydown="{handleKeyDown}"
         on:change="{handleTodoInputChange}"
-    >
-    <div><button on:click="{() => addToDb()}">Add</button></div>
+    />
+    <div>
+        <button on:click="{() => addToDb()}">Add</button>
+    </div>
 </div>

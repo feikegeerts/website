@@ -1,3 +1,23 @@
+<style>
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .constraint {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .constraint {
+            max-width: 52rem;
+        }
+    }
+</style>
+
 <script>
     import { Router, Route, Link } from 'svelte-routing';
     import NavLink from './components/NavLink.svelte';
@@ -9,31 +29,11 @@
     export let url = '';
 </script>
 
-<style>
-	.main {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.constraint {
-		width: 100%;
-		padding: .5rem;
-	}
-
-	@media only screen and (min-width: 768px) {
-		.constraint {
-			max-width: 52rem;
-		}
-	}
-</style>
-
 <svelte:head>
-	<title>Todo list</title>
+    <title>Todo list</title>
 </svelte:head>
 <div class="main">
-	<div class="constraint">
+    <div class="constraint">
         <Router url="{url}">
             <nav>
                 <NavLink to="/">Home</NavLink>
@@ -46,5 +46,5 @@
                 <Route path="todo-lists/*" component="{TodoLists}" />
             </div>
         </Router>
-	</div>
+    </div>
 </div>
